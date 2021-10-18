@@ -1,29 +1,28 @@
-import random
-from helpers import SUITS, RANKS, Card
+from helpers import SUITS, RANKS, Card, Deck
 
 
-class Deck(list):
-    """Class representing the deck of cards."""
+class Hand(list):
+    """Class representing the hand of a player."""
 
-    def __init__(self):
-        for rank in RANKS:
-            for suit in SUITS:
-                card = Card(suit, rank)
-                self.append(card)
-        self.shuffle()
+    def append(self, obj):
+        if not isinstance(obj, Card):
+            raise ValueError("On ne peut ajouter qu'une carte!")
+        return super().append(obj)
 
-    def shuffle(self):
-        random.shuffle(self)
 
-    def draw_card(self):
-        try:
-            self.pop()
-        except IndexError:
-            return None
+class Player:
+    """Class representing a player."""
+
+    def __init__(self, name):
+        self.name = name
+        self.hand = Hand()
 
 
 if __name__ == "__main__":
-    deck = Deck()
-    print(deck)
-    print(len(deck))
+    player = Player("Cyrille")
+    card = Card("diamonds", "valet")
+    print(card)
+    player.hand.append(card)
+    print(player.hand[0])
+    player.hand.append(1)
 

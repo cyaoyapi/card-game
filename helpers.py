@@ -1,3 +1,4 @@
+import random
 SUITS = ("diamonds", "coeurs", "piques", "carreaux")
 RANKS = (
     "deux",
@@ -38,9 +39,33 @@ class Card:
         return self._suit_score < other._suit_score
 
 
+class Deck(list):
+    """Class representing the deck of cards."""
+
+    def __init__(self):
+        for rank in RANKS:
+            for suit in SUITS:
+                card = Card(suit, rank)
+                self.append(card)
+        self.shuffle()
+
+    def shuffle(self):
+        random.shuffle(self)
+
+    def draw_card(self):
+        try:
+            self.pop()
+        except IndexError:
+            return None
+
+
 if __name__ == "__main__":
     card1 = Card("diamonds", "cinq")
     card2 = Card("coeurs", "cinq")
     card3 = Card("coeurs", "valet")
     print(card1 < card2)
     print(card3 > card2)
+    deck = Deck()
+    print(deck)
+    print(len(deck))
+
