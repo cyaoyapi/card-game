@@ -7,7 +7,7 @@ from models.player import Player
 
 
 class Controller:
-    """Main controller."""
+    """Class representing the main controller."""
 
     def __init__(self, deck: Deck):
         # Models
