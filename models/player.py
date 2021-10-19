@@ -1,4 +1,8 @@
-from card import Card
+"""Define player"""
+
+from typing import List
+
+from .card import Card
 
 
 class Hand(list):
@@ -15,7 +19,7 @@ class Player:
 
     def __init__(self, name):
         self.name = name
-        self.hand = Hand()
+        self.hand: List[Card] = Hand()
 
 
 if __name__ == "__main__":

@@ -4,21 +4,24 @@ from typing import List
 
 from models.deck import Deck
 from models.player import Player
+from views.base import View
+
+MAX_NUMBER_OF_PLAYERS = 5
 
 
 class Controller:
     """Class representing the main controller."""
 
-    def __init__(self, deck: Deck):
+    def __init__(self, deck: Deck, view: View):
         # Models
         self.deck = deck
         self.players: List[Player] = []
         # Views
-        self.view = None
+        self.view = view
 
     def get_players(self):
         """Get some players."""
-        while len(self.players) < 5:
+        while len(self.players) < MAX_NUMBER_OF_PLAYERS:
             name = self.view.prompt_for_player()
             if not name:
                 return None
@@ -58,6 +61,7 @@ class Controller:
 
     def run(self):
         """Run the game."""
+
         self.get_players()
         running = True
         while running:

@@ -1,5 +1,5 @@
 import random
-from card import SUITS, RANKS, Card
+from .card import SUITS, RANKS, Card
 
 
 class Deck(list):
@@ -17,7 +17,7 @@ class Deck(list):
 
     def draw_card(self):
         try:
-            self.pop()
+            return self.pop()
         except IndexError:
             return None
 
