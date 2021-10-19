@@ -23,19 +23,12 @@ class Card:
         self.suit = suit
         self.rank = rank
         self.is_up_face = False
-        self._suit_score = SUITS.index(self.suit)
-        self._rank_score = RANKS.index(self.rank)
 
     def __repr__(self):
         return str(self)
 
     def __str__(self):
         return f"{self.rank} de {self.suit}"
-
-    def __lt__(self, other: "Card"):
-        if self._rank_score != other._rank_score:
-            return self._rank_score < other._rank_score
-        return self._suit_score < other._suit_score
 
 
 if __name__ == "__main__":

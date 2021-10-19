@@ -2,6 +2,7 @@
 
 from typing import List
 
+from models.card import SUITS, RANKS
 from models.deck import Deck
 from models.player import Player
 from views.base import View
@@ -40,10 +41,24 @@ class Controller:
         """Evaluate the best player."""
 
         best_player = self.players[0]
+
         for player in self.players[1:]:
             player_card = player.hand[0]
+            player_scores = (
+                RANKS.index(player_card.rank),
+                SUITS.index(player_card.suit)
+            )
+
             best_player_card = best_player.hand[0]
-            if player_card > best_player_card:
+            best_player_scores = (
+                RANKS.index(best_player_card.rank),
+                SUITS.index(best_player_card.suit)
+            )
+
+            if player_scores[0] != best_player_scores[0]:
+                if player_scores[0] > best_player_scores[0]:
+                    best_player = player
+            elif player_scores[1] > best_player_scores[1]:
                 best_player = player
 
         return best_player.name
