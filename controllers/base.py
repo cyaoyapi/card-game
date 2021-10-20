@@ -2,7 +2,6 @@
 
 from typing import List
 
-from models.card import SUITS, RANKS
 from models.deck import Deck
 from models.player import Player
 from views.base import View
@@ -13,12 +12,14 @@ MAX_NUMBER_OF_PLAYERS = 5
 class Controller:
     """Class representing the main controller."""
 
-    def __init__(self, deck: Deck, view: View):
+    def __init__(self, deck: Deck, view: View, checker_scenario):
         # Models
         self.deck = deck
         self.players: List[Player] = []
         # Views
         self.view = view
+        # Scenario of Checking
+        self.checker_scenario = checker_scenario()
 
     def get_players(self):
         """Get some players."""
@@ -40,28 +41,7 @@ class Controller:
     def evaluate_game(self):
         """Evaluate the best player."""
 
-        best_player = self.players[0]
-
-        for player in self.players[1:]:
-            player_card = player.hand[0]
-            player_scores = (
-                RANKS.index(player_card.rank),
-                SUITS.index(player_card.suit)
-            )
-
-            best_player_card = best_player.hand[0]
-            best_player_scores = (
-                RANKS.index(best_player_card.rank),
-                SUITS.index(best_player_card.suit)
-            )
-
-            if player_scores[0] != best_player_scores[0]:
-                if player_scores[0] > best_player_scores[0]:
-                    best_player = player
-            elif player_scores[1] > best_player_scores[1]:
-                best_player = player
-
-        return best_player.name
+        return self.checker_scenario.checker(self.players)
 
     def rebuild_deck(self):
         """Rebuild the deck."""
