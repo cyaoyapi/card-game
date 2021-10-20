@@ -1,59 +1,36 @@
-"""Define the basic view used by players."""
+"""Define the wrapper of views"""
 
 
-class PlayerView:
-    """Class representing the card game view."""
+class View:
+    """Class representing a wrapper of views."""
 
-    def prompt_for_player():
+    def __init__(self, active_view, passive_views):
+        self.active_view = active_view
+        self.passive_views = passive_views
+
+    def prompt_for_player(self):
         """Prompt for a name."""
+        return self.active_view.prompt_for_player()
 
-        name = input("Entrez le nom d'un joueur : ")
-        if not name:
-            return None
-        return name
-
-    prompt_for_player = staticmethod(prompt_for_player)
-
-    def show_player_hand(name, hand):
+    def show_player_hand(self, name, hand):
         """Show the player hand."""
+        self.active_view.show_player_hand(name, hand)
+        for passive_view in self.passive_views:
+            passive_view.show_player_hand(name, hand)
 
-        print(f"[Joueur {name}]")
-        for card in hand:
-            if card.is_up_face:
-                print(card)
-            else:
-                print("(Carte face cachée.)")
-
-        return None
-
-    show_player_hand = staticmethod(show_player_hand)
-
-    def prompt_for_flip_cards():
+    def prompt_for_flip_cards(self):
         """Request to return the cards."""
+        return self.active_view.prompt_for_flip_cards()
 
-        print()
-        print("Prêts à retourner les cards ....")
-        return None
-
-    prompt_for_flip_cards = staticmethod(prompt_for_flip_cards)
-
-    def show_winner(name):
+    def show_winner(self, name):
         """Show the winner."""
-        print(f"Bravo {name}, tu as gagné(e)!")
-        return None
+        self.active_view.show_winner(name)
+        for passive_view in self.passive_views:
+            passive_view.show_winner(name)
 
-    show_winner = staticmethod(show_winner)
-
-    def prompt_for_new_game():
+    def prompt_for_new_game(self):
         """Request to replay."""
-        print("Souhaitez-vous refaire une partie ? ")
-        choice = input("Tapez Y (Oui) ou N (Non) : ")
-        if choice.upper() == "N":
-            print("Fin du jeu. Au revoir!")
-            return False
-        return True
-
-    prompt_for_new_game = staticmethod(prompt_for_new_game)
+        return self.active_view.prompt_for_new_game()
 
 
 

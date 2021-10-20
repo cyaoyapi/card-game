@@ -11,20 +11,19 @@ MAX_NUMBER_OF_PLAYERS = 5
 class Controller:
     """Class representing the main controller."""
 
-    def __init__(self, deck: Deck, active_view, views, checker_scenario):
+    def __init__(self, deck: Deck, view, checker_scenario):
         # Models
         self.deck = deck
         self.players: List[Player] = []
         # Views
-        self.active_view = active_view
-        self.views = views
+        self.view = view
         # Scenario of Checking
         self.checker_scenario = checker_scenario()
 
     def get_players(self):
         """Get some players."""
         while len(self.players) < MAX_NUMBER_OF_PLAYERS:
-            name = self.active_view.prompt_for_player()
+            name = self.view.prompt_for_player()
             if not name:
                 return None
             player = Player(name)
@@ -62,26 +61,19 @@ class Controller:
         while running:
             self.start_game()
             for player in self.players:
-                self.active_view.show_player_hand(player.name, player.hand)
+                self.view.show_player_hand(player.name, player.hand)
 
-                for view in self.views:
-                    view.show_player_hand(player.name, player.hand)
-
-            self.active_view.prompt_for_flip_cards()
+            self.view.prompt_for_flip_cards()
 
             for player in self.players:
                 for card in player.hand:
                     card.is_up_face = True
 
-                self.active_view.show_player_hand(player.name, player.hand)
-                for view in self.views:
-                    view.show_player_hand(player.name, player.hand)
+                self.view.show_player_hand(player.name, player.hand)
 
-            self.active_view.show_winner(self.evaluate_game())
-            for view in self.views:
-                view.show_winner(self.evaluate_game())
+            self.view.show_winner(self.evaluate_game())
 
-            running = self.active_view.prompt_for_new_game()
+            running = self.view.prompt_for_new_game()
 
             self.rebuild_deck()
 
