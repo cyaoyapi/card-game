@@ -11,11 +11,12 @@ MAX_NUMBER_OF_PLAYERS = 5
 class Controller:
     """Class representing the main controller."""
 
-    def __init__(self, deck: Deck, views, checker_scenario):
+    def __init__(self, deck: Deck, active_view, views, checker_scenario):
         # Models
         self.deck = deck
         self.players: List[Player] = []
         # Views
+        self.active_view = active_view
         self.views = views
         # Scenario of Checking
         self.checker_scenario = checker_scenario()
@@ -23,18 +24,11 @@ class Controller:
     def get_players(self):
         """Get some players."""
         while len(self.players) < MAX_NUMBER_OF_PLAYERS:
-            names = []
-            for view in self.views:
-                printed_name = view.prompt_for_player()
-                names.append(printed_name)
-
-            if not any(names):
+            name = self.active_view.prompt_for_player()
+            if not name:
                 return None
-
-            for name in names:
-                if name:
-                    player = Player(name)
-                    self.players.append(player)
+            player = Player(name)
+            self.players.append(player)
 
     def start_game(self):
         """Shuffle the deck and makes the players draw a card."""
@@ -68,26 +62,26 @@ class Controller:
         while running:
             self.start_game()
             for player in self.players:
+                self.active_view.show_player_hand(player.name, player.hand)
+
                 for view in self.views:
                     view.show_player_hand(player.name, player.hand)
 
-            for view in self.views:
-                view.prompt_for_flip_cards()
+            self.active_view.prompt_for_flip_cards()
 
             for player in self.players:
                 for card in player.hand:
                     card.is_up_face = True
 
+                self.active_view.show_player_hand(player.name, player.hand)
                 for view in self.views:
                     view.show_player_hand(player.name, player.hand)
 
+            self.active_view.show_winner(self.evaluate_game())
             for view in self.views:
                 view.show_winner(self.evaluate_game())
 
-            for view in self.views:
-                running = view.prompt_for_new_game()
-                if not running:
-                    return None
+            running = self.active_view.prompt_for_new_game()
 
             self.rebuild_deck()
 

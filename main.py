@@ -12,8 +12,9 @@ def main():
     """Main program."""
 
     deck = Deck()
-    views = (PlayerView, BroadCastView, InternetStreamingView)
-    game = Controller(deck, views, CheckerHighRankAndSuitIndex)
+    active_view = PlayerView()
+    views = (BroadCastView, InternetStreamingView)
+    game = Controller(deck, active_view, views, CheckerHighRankAndSuitIndex)
     game.run()
 
 
