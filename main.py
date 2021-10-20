@@ -1,7 +1,9 @@
 """Entry point"""
 
 from models.deck import Deck
-from views.base import View
+from views.base import PlayerView
+from views.broadcast import BroadCastView
+from views.internet import InternetStreamingView
 from controllers.checkers import CheckerHighRankAndSuitIndex
 from controllers.base import Controller
 
@@ -10,8 +12,8 @@ def main():
     """Main program."""
 
     deck = Deck()
-    view = View()
-    game = Controller(deck, view, CheckerHighRankAndSuitIndex)
+    views = (PlayerView, BroadCastView, InternetStreamingView)
+    game = Controller(deck, views, CheckerHighRankAndSuitIndex)
     game.run()
 
 
