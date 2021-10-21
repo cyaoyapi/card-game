@@ -31,11 +31,3 @@ class View:
     def prompt_for_new_game(self):
         """Request to replay."""
         return self.active_view.prompt_for_new_game()
-
-
-
-
-
-
-
-

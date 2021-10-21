@@ -24,10 +24,3 @@ class BroadCastView:
         return None
 
     show_winner = staticmethod(show_winner)
-
-
-
-
-
-
-

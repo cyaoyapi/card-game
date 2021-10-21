@@ -54,11 +54,3 @@ class PlayerView:
         return True
 
     prompt_for_new_game = staticmethod(prompt_for_new_game)
-
-
-
-
-
-
-
-

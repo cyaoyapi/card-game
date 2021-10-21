@@ -76,5 +76,3 @@ class Controller:
             running = self.view.prompt_for_new_game()
 
             self.rebuild_deck()
-
-
